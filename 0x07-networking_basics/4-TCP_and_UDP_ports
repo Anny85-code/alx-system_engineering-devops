@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Displays listening ports and listening sockets.
+
+netstat -tlnp | awk '{print $4,$7}' | sed 's/.*\:\([0-9]\+\) \+\([0-9]\+\/[a-zA-Z0-9]\+\)/Port: \1 Process: \2/'
+
