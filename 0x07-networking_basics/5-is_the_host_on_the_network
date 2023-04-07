@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Displays ip address and its status 5 times
 
-if [ $# -eq 0 ]; then
+if [ $# -eq 0 ]; 
+then
   echo "Usage: $0 {IP_ADDRESS}"
-  exit 1
+else
+  ping -c 5 "$1" 
 fi
 
