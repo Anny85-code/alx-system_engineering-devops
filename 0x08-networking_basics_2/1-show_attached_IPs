@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Get the list of nextwork interfaces
+
+ifaces=$(ifcong -a | grep '^[^]' | awk '{print $1}')
+
+#Loop through each interface and displays each address
+
+for iface in $ifaces; do
+  ipv4=$(ifconfig $iface | grep 'inet' | awk '{print $2}')
+  if [ !-z "$ipv4"]; then
+     echo "$iface : $ipv4"
+  fi
+done 
+ 
