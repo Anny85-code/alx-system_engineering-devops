@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Listening to port 98 on localhost
 
-nc -1 -p 98
+nc -1 localhost 98
 
