@@ -1,4 +1,4 @@
-#!usr/bin/env bash
+#!/usr/bin/env bash
 # Listening to port 98 on localhost
 
 nc -1 -p 98
