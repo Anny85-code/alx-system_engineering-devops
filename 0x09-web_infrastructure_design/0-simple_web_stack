@@ -1,0 +1,26 @@
+Assuming a user wants to access the website www.foobar.com, the following design can be implemented using a single server:
+
+Server: A server is a computer program or device that provides functionality to other programs or devices. In this case, the server will host the website and provide access to it.
+
+Domain Name: A domain name is a human-readable address that is used to access the website. In this case, the domain name is foobar.com, and it is configured with a www record that points to the server's IP address (8.8.8.8). This allows users to access the website using the URL www.foobar.com.
+
+DNS Record: The www record is a type of DNS record that indicates the hostname of the website. It is used to direct traffic to the correct server when a user types in the URL.
+
+Web Server: A web server is a program that serves web pages to clients over the HTTP protocol. In this case, the web server will be Nginx. It will receive incoming requests from users and forward them to the application server for processing.
+
+Application Server: An application server is a program that provides a platform for running applications. In this case, the application server will be used to run the codebase for the website. It will receive requests from the web server, process them, and generate the appropriate responses.
+
+Application Files: The application files refer to the codebase for the website. These files will be stored on the server and executed by the application server to generate web pages.
+
+Database: The database is a program that stores and retrieves data for the website. In this case, MySQL will be used as the database. It will store user data, website content, and other information that is required by the website.
+
+Communication Protocol: The server will communicate with the user's computer using the HTTP protocol. This is a standard protocol for web communication, and it allows the user to request and receive web pages from the server.
+
+Issues with this infrastructure:
+
+Single Point of Failure (SPOF): Since this infrastructure uses a single server, it is vulnerable to a single point of failure. If the server goes down, the website will become inaccessible, and users will not be able to access it.
+
+Downtime during maintenance: If maintenance is required, such as deploying new code, the web server will need to be restarted. This will cause downtime for the website, and users will not be able to access it during this time.
+
+Scalability: This infrastructure is not scalable, and it cannot handle a large volume of incoming traffic. If the website becomes popular, the server may become overloaded, and users will experience slow page load times or errors. To address this issue, additional servers can be added to the infrastructure, or cloud-based solutions such as AWS can be used to scale the infrastructure dynamically.
+This is the url to the screenshot https://imgur.com/rc4usZX
