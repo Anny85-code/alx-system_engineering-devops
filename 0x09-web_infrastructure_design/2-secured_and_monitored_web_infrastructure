@@ -1,0 +1,36 @@
+Design of Three Server Web Infrastructure for www.foobar.com:
+
+To host the website www.foobar.com securely and reliably, I can use the following architecture:
+
+Load Balancer Server:
+The first server in my infrastructure is a load balancer that distributes incoming traffic among the other two servers to avoid overloading any one server. I can use a load balancer like HAProxy, Nginx, or Amazon Elastic Load Balancer.
+
+Web Server:
+The second server is a web server that hosts the website www.foobar.com. I need to install a web server software like Apache, Nginx, or Microsoft IIS on this server to serve web pages to users.
+
+Database Server:
+The third server is a database server that stores data for the website www.foobar.com. I need to install a database server like MySQL, MariaDB, or PostgreSQL on this server to store and manage data.
+
+Firewall:
+To secure the infrastructure, I need to add firewalls to each server. Firewalls can prevent unauthorized access and protect the servers from attacks. I can use firewalls like iptables, UFW, or firewalld.
+
+SSL Certificate:
+To serve the website over HTTPS and encrypt traffic, I need to add an SSL certificate. I can use a certificate authority like Let's Encrypt or purchase an SSL certificate from a trusted vendor like Symantec.
+
+Monitoring:
+To ensure the infrastructure is working correctly, I need to add monitoring to our servers. I can use a monitoring service like SumoLogic, Datadog, or Nagios. Each server will have a monitoring client installed that sends data to the monitoring service.
+
+QPS Monitoring:
+To monitor the QPS (queries per second) of the web server, I need to install a monitoring agent on the web server that collects and sends data to the monitoring service.
+This is the url of a screenshot of the whiteboard https://imgur.com/UXjgDFx
+
+Issues with the Infrastructure:
+
+Terminating SSL at the Load Balancer Level:
+Terminating SSL at the load balancer level can be an issue because it can reduce the security of the infrastructure. It is better to terminate SSL at the web server level to prevent the traffic from being decrypted before reaching the server.
+
+Only One MySQL Server Capable of Accepting Writes:
+Having only one MySQL server capable of accepting writes can be an issue because it can create a single point of failure. If the database server goes down, the website will become unavailable. It is better to use a database cluster with multiple nodes to avoid downtime.
+
+Servers with all the Same Components:
+Having servers with all the same components like the database, web server, and application server can be a problem because it can create a single point of failure. If one server goes down, the entire infrastructure will become unavailable. It is better to use different components on different servers to avoid downtime.
