@@ -1,0 +1,38 @@
+Here's my design for a three-server web infrastructure that hosts the website www.foobar.com:
+
+Server 1: Nginx Web Server
+Server 2: Application Server
+Server 3: MySQL Database Server
+To make this infrastructure highly available and scalable, I'll add the following elements:
+
+Load Balancer: HAproxy
+Code Base: The set of application files
+Now, let me explain why I'm adding each of these elements:
+
+Nginx Web Server: This server will handle incoming web requests and serve static content, such as HTML, CSS, and JavaScript files. It's fast, lightweight, and can handle a large number of simultaneous connections, making it a great choice for a web server.
+
+Application Server: This server will handle dynamic content, such as user-generated data or content generated on-the-fly. It will communicate with the MySQL database server to fetch and store data.
+
+MySQL Database Server: This server will store all the data for the website, including user accounts, blog posts, and comments.
+
+Load Balancer: HAproxy will distribute incoming web requests across multiple application servers, ensuring that no single server gets overwhelmed with traffic.
+
+Code Base: The set of application files includes all the code needed to run the website, including server-side scripts, HTML templates, and client-side JavaScript code.
+
+The load balancer will be configured with a round-robin algorithm, which evenly distributes incoming requests across all available application servers. This ensures that no single server gets overloaded with traffic, and all servers get an equal share of the workload.
+
+The load-balancer will be set up with an Active-Active setup. This means that all servers will be actively serving traffic at all times. If one server fails, the other servers will pick up the slack, ensuring that the website remains available.
+
+For the database, we'll set up a Primary-Replica (Master-Slave) cluster. In this setup, the Primary node is the main database server that handles all read and write requests. The Replica node is a backup server that replicates the data from the Primary node in real-time. If the Primary node fails, the Replica node can take over and become the new Primary node.
+
+The Primary node is the main database server that handles all read and write requests from the application servers. The Replica node is a backup server that replicates the data from the Primary node in real-time. If the Primary node fails, the Replica node can take over and become the new Primary node. The Replica node is read-only, which means that it cannot handle write requests.
+
+Now, let's discuss the issues with this infrastructure:
+
+SPOF: There are a few single points of failure in this infrastructure. For example, if the load balancer fails, incoming web requests won't be distributed to the application servers. Similarly, if the Primary database server fails, the website will be unable to write new data to the database.
+
+Security issues: This infrastructure doesn't have a firewall, which means that it's vulnerable to attacks from the internet. Additionally, the website is not served over HTTPS, which means that user data could be intercepted by attackers.
+
+No monitoring: There are no monitoring tools in place to track the health and performance of the servers and services in this infrastructure. Without monitoring, it will be difficult to detect and resolve issues before they cause downtime or data loss.
+
+this is the url of the whiteboard screenshot https://imgur.com/a/nif52G6
