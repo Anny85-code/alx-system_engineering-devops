@@ -1,0 +1,39 @@
+Design of Four Server Web Infrastructure for www.foobar.com:
+
+To host the website www.foobar.com securely, reliably, and with high availability, I can use the following architecture:
+
+Load Balancer Server 1:
+The first load balancer server distributes incoming traffic among the other servers. I can use a load balancer like HAProxy to balance the traffic between web server and application server.
+
+Load Balancer Server 2:
+The second load balancer server is configured as a cluster with the first load balancer to ensure high availability. If the first load balancer fails, the second load balancer will take over automatically.
+
+Web Server:
+The third server is a web server that hosts the website www.foobar.com. I need to install a web server software like Apache, Nginx, or Microsoft IIS on this server to serve web pages to users.
+
+Application Server:
+The fourth server is an application server that runs the code for the website www.foobar.com. I need to install a runtime environment like Node.js, Ruby on Rails, or Django on this server to run the website's code.
+
+Database Server:
+The fifth server is a database server that stores data for the website www.foobar.com. I need to install a database server like MySQL, MariaDB, or PostgreSQL on this server to store and manage data.
+
+Firewall:
+To secure our infrastructure, I need to add firewalls to each server. Firewalls can prevent unauthorized access and protect the servers from attacks. I can use firewalls like iptables, UFW, or firewalld.
+
+SSL Certificate:
+To serve the website over HTTPS and encrypt traffic, I need to add an SSL certificate. I can use a certificate authority like Let's Encrypt or purchase an SSL certificate from a trusted vendor like Symantec.
+
+Monitoring:
+To ensure the infrastructure is working correctly, I need to add monitoring to our servers. I can use a monitoring service like SumoLogic, Datadog, or Nagios. Each server will have a monitoring client installed that sends data to the monitoring service.
+
+Why I am adding these additional elements:
+
+Load Balancer Server 2:
+By adding the second load balancer server configured as a cluster, I ensure high availability of the website. If the first load balancer fails, the second load balancer will take over automatically, ensuring the website remains available.
+
+Split Components:
+By splitting the components like the web server, application server, and database server onto different servers, I improve the website's performance and security. By separating the web server and application server, we can scale each component separately, optimizing performance. Separating the database server ensures better security by isolating sensitive data and avoiding potential data breaches.
+
+In conclusion, this infrastructure ensures high availability, better security, and optimized performance. The load balancers distribute traffic, and splitting the components onto different servers helps ensure that the website remains available, even if one component fails. By securing the infrastructure with firewalls, SSL certificates, and monitoring, I can protect the website from attacks and ensure that it is functioning correctly.
+
+This is the url of the screenshot of the white board https://imgur.com/a/Cf5Vty3
