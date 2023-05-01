@@ -1,0 +1,25 @@
+frontend www-https
+   bind *:443 ssl crt /path/to/certificate.pem
+   mode http 
+   default_backend www-backend
+
+backend www-backend
+   mode http
+   server 375-web-01 104.196.168.90:80 check
+   server 375-web-02 35.196.46.172:80 check
+
+frontend www-http
+   bind *:80
+   mode http
+   redirect scheme https code 301 if !{ ssl_fc }
+
+backend www-https-redirect
+   mode http
+   redirect scheme https code 301 if !{ ssl_fc }
+
+listen stats
+   bind *:8404
+   stats enable
+   stats uri /
+   stats realm Haproxy\ Statistics
+   stats auth admin:password
