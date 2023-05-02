@@ -1,5 +1,26 @@
-frontend www-https
-   bind *:443 ssl crt /path/to/certificate.pem
+global
+   log /dev/log local0
+   maxconn 2048
+   user haproxy
+   group haproxy
+   tune.ssl.default-dh-param 2048
+
+defaults
+   log global
+   mode http
+   option httplog
+   option dontlognull
+   retries 3
+   option redispatch
+   timeout connect 5000
+   timeout client 100000
+   timeout server 100000
+   option forwardfor
+   option http-server-close
+
+frontend www-http
+   bind 0.0.0.0:80
+   reqadd X-Forwarded-Proto:\ http
    mode http 
    default_backend www-backend
 
@@ -7,19 +28,18 @@ backend www-backend
    mode http
    server 375-web-01 104.196.168.90:80 check
    server 375-web-02 35.196.46.172:80 check
+   balance roundronin
+   redirect scheme https if !{ ssl_fc }
+   server 375-web-01 104.196.168.90:80 check
+   server 375-web-02 35.196.46.172:80 check
 
-frontend www-http
-   bind *:80
-   mode http
-   redirect scheme https code 301 if !{ ssl_fc }
+frontend www-https
+   bind 0.0.0.0:443 crt /etc/haproxy/certs/www.bdbnb.site.pem
+   reqadd X-Forwarded-Proto:\ https
+   acl letsencrypt-acl path_beg /.well-known/acme-challenge/use_backend letsencrypt-backend if letsencrypt-acl
+   default_backend www-backend
+   
 
-backend www-https-redirect
-   mode http
-   redirect scheme https code 301 if !{ ssl_fc }
+backend letsencrypt-backend
+   server letsencrypt 127.0.0.1:54321
 
-listen stats
-   bind *:8404
-   stats enable
-   stats uri /
-   stats realm Haproxy\ Statistics
-   stats auth admin:password
