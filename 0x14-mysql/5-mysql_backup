@@ -1,36 +1,11 @@
 #!/usr/bin/env bash
+# backup and compress my databases
 
-# Check if the password argument is provided
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 <mysql_password>"
-    exit 1
-fi
+# variables
+day=$(date +"%d")
+month=$(date +"%m")
+year=$(date +"%Y")
+file_name="$day-$month-$year.tar.gz"
 
-# Get the current date in the desired format
-current_date=$(date +"%d-%m-%Y")
-
-# MySQL credentials
-mysql_user="root"
-mysql_password="password"
-
-# Destination directory for the backup
-backup_dir="/home/ubuntu/backup/mydatabase"
-
-# Create a directory for the backup if it doesn't exist
-mkdir -p "$backup_dir"
-
-# MySQL dump command
-mysqldump -u "$mysql_user" -p"$mysql_password" --all-databases > "$backup_dir/backup.sql"
-
-# Check if the dump was successful
-if [ $? -eq 0 ]; then
-    # Compress the backup using tar.gz
-    tar -czf "$backup_dir/$current_date.tar.gz" -C "$backup_dir" backup.sql
-
-    # Remove the original dump file
-    rm "$backup_dir/backup.sql"
-
-    echo "Backup completed and compressed to $backup_dir/$current_date.tar.gz"
-else
-    echo "Backup failed"
-fi
+mysqldump --all-databases -u root --password="$1" > backup.sql
+tar -czvf "$file_name" backup.sql
