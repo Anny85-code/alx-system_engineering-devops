@@ -1,56 +1,7 @@
 #!/usr/bin/env bash
-# Install and configure Nginx
-class nginx_server {
-  package { 'nginx':
-    ensure => installed,
-  }
+# Installs a Nginx server
 
-  service { 'nginx':
-    ensure => running,
-    enable => true,
-  }
-
-  file { '/etc/nginx/sites-available/default':
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    content => template('nginx_server/nginx.conf.erb'),
-    require => Package['nginx'],
-    notify  => Service['nginx'],
-  }
+exec {'install':
+  provider => shell,
+  command  => 'sudo apt-get -y update ; sudo apt-get -y install nginx ; echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html ; sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/hendrexresources.com permanent;/" /etc/nginx/sites-available/default ; sudo service nginx start',
 }
-
-# Define the Nginx configuration template
-file { '/etc/nginx/sites-available/default':
-  ensure => file,
-  owner  => 'root',
-  group  => 'root',
-  source => 'puppet:///modules/nginx_server/nginx.conf',
-}
-
-# Redirect for /redirect_me
-nginx::resource::location { 'redirect_me':
-  location => '/redirect_me',
-  rewrite  => '/ http://$host/redirected permanent',
-}
-
-include nginx_server
-
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    server_name _;
-
-    root /var/www/html;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-
-    location = /redirected {
-        return 200 "You have been redirected!";
-    }
-}
-
