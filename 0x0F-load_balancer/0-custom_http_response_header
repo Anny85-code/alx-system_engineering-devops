@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Get the hostname of the server
+HOSTNAME=$(hostname)
+
+# Define the Nginx configuration file path
+NGINX_CONFIG="/etc/nginx/nginx.conf"
+
+# Check if Nginx is installed
+if [ ! -f $NGINX_CONFIG ]; then
+  echo "Nginx is not installed. Please install it first."
+  exit 1
+fi
+
+# Backup the original Nginx configuration file
+cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+
+
+# Create a custom Nginx configuration snippet file
+
+echo 'server {' >> /etc/nginx/conf.d/custom_response_header.conf
+echo '    location / {' >> /etc/nginx/conf.d/custom_response_header.conf
+echo '        add_header X-Served-By $HOSTNAME;' >> /etc/nginx/conf.d/custom_response_header.conf
+echo '    }' >> /etc/nginx/conf.d/custom_response_header.conf
+echo '}' >> /etc/nginx/conf.d/custom_response_header.conf
+
+# Test Nginx configuration for syntax errors
+if nginx -t; then
+  # Reload Nginx to apply the new configuration
+  systemctl reload nginx
+  echo "Nginx configuration reloaded successfully."
+else
+  # Restore the original Nginx configuration file and exit with an error
+  mv /etc/nginx/nginx.conf.bak /etc/nginx/nginx.conf
+
+  echo "Nginx configuration test failed. Restored the original configuration."
+  exit 1
+fi
+
+# Clean up the temporary configuration snippet
+rm /etc/nginx/conf.d/custom_response_header.conf
+
+echo "Custom HTTP response header configured successfully."
+
